@@ -276,7 +276,7 @@ process build_star_index {
     tag "${fasta}-${gtf}"
     label 'process_medium'
 
-    publishDir params.outdir, mode: 'copy'
+    publishDir params.outdir, mode: 'move'
 
     input:
         file(fasta) from ch_fasta
@@ -319,7 +319,7 @@ process arriba {
     tag "${sample}"
     label 'process_medium'
 
-    publishDir "${params.outdir}/tools/Arriba/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Arriba/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_arriba
@@ -384,7 +384,7 @@ process star_fusion {
     tag "${sample}"
     label 'process_high'
 
-    publishDir "${params.outdir}/tools/Star-Fusion/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Star-Fusion/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_star_fusion
@@ -451,7 +451,7 @@ process fusioncatcher {
     tag "${sample}"
     label 'process_high'
     
-    publishDir "${params.outdir}/tools/Fusioncatcher/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Fusioncatcher/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_fusioncatcher
@@ -487,7 +487,7 @@ process ericscript {
     tag "${sample}"
     label 'process_high'
 
-    publishDir "${params.outdir}/tools/EricScript/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/EricScript/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_ericscript
@@ -527,7 +527,7 @@ process pizzly {
     tag "${sample}"
     label 'process_medium'
 
-    publishDir "${params.outdir}/tools/Pizzly/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Pizzly/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_pizzly
@@ -569,7 +569,7 @@ process squid {
     tag "${sample}"
     label 'process_high'
 
-    publishDir "${params.outdir}/tools/Squid/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Squid/${sample}", mode: 'move'
 
     input:
         set val(sample), file(reads) from read_files_squid
@@ -632,7 +632,7 @@ files_and_reports_summary = files_and_reports_summary.dump(tag:'files_and_report
 process summary {
     tag "${sample}"
 
-    publishDir "${params.outdir}/Reports/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/Reports/${sample}", mode: 'move'
  
     input:
         set val(sample), file(reads), file(arriba), file(ericscript), file(fusioncatcher), file(pizzly), file(squid), file(starfusion) from files_and_reports_summary
@@ -672,7 +672,7 @@ process arriba_visualization {
     tag "${sample}"
     label 'process_medium'
 
-    publishDir "${params.outdir}/tools/Arriba/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/Arriba/${sample}", mode: 'move'
 
     input:
         file(reference) from reference.arriba_vis
@@ -712,7 +712,7 @@ process fusion_inspector {
     tag "${sample}"
     label 'process_high'
 
-    publishDir "${params.outdir}/tools/FusionInspector/${sample}", mode: 'copy'
+    publishDir "${params.outdir}/tools/FusionInspector/${sample}", mode: 'move'
 
     input:
         set val(sample), file(fi_input_list), file(reads) from fusion_inspector_input
@@ -746,7 +746,7 @@ process fusion_inspector {
  * Parse software version numbers
  */
 process get_software_versions {
-    publishDir "${params.outdir}/pipeline_info", mode: 'copy',
+    publishDir "${params.outdir}/pipeline_info", mode: 'move',
         saveAs: { filename ->
                       if (filename.indexOf(".csv") > 0) filename
                       else null
@@ -780,7 +780,7 @@ process get_software_versions {
 process fastqc {
     tag "$name"
     label 'process_medium'
-    publishDir "${params.outdir}/fastqc", mode: 'copy',
+    publishDir "${params.outdir}/fastqc", mode: 'move',
         saveAs: { filename ->
                       filename.indexOf(".zip") > 0 ? "zips/$filename" : "$filename"
                 }
@@ -803,7 +803,7 @@ process fastqc {
  * MultiQC
  */
 process multiqc {
-    publishDir "${params.outdir}/MultiQC", mode: 'copy'
+    publishDir "${params.outdir}/MultiQC", mode: 'move'
 
     input:
     file (multiqc_config) from ch_multiqc_config
@@ -833,7 +833,7 @@ process multiqc {
  * Output Description HTML
  */
 process output_documentation {
-    publishDir "${params.outdir}/pipeline_info", mode: 'copy'
+    publishDir "${params.outdir}/pipeline_info", mode: 'move'
 
     input:
         file(output_docs) from ch_output_docs
