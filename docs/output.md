@@ -146,7 +146,19 @@ For more info and help check [wiki page](https://github.com/FusionInspector/Fusi
 **Output directory: `results/Report-<READS_BASE_NAME>`**
 
 - `fusions.json`
-  - contains all main information about found fusions (fusion name, score, explanation of the score calculation, cherry picked output from fusion tools)
+    - contains all main information about found fusions (fusion name, score, explanation of the score calculation, cherry picked output from fusion tools)
+    
+    Score Calculation:
+    The fusion report score is calculated using two main components with different weights:
+    1. Tool Detection (80% of total score)
+       - Calculated as: (number of tools detecting the fusion) / (number of tools actually used)
+       - This reflects how many of the active tools found the fusion
+
+    2. Database Hits (20% of total score)
+       - Based on matches in known fusion databases
+       - Calculated as: (number of database hits) / (total possible database hits)
+
+    Final score = (0.8 × Tool Detection Score) + (0.2 × Database Hits Score)
 - `index.html`
   - main dashboard containing the list of all detected fusions
 - `*.html`
